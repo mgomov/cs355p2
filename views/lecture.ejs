@@ -1,0 +1,16 @@
+<% include sidebar %>
+<% include header %>
+
+<em>Recordings:</em>
+<br/>
+<% if (rs.length > 0) { %>
+<% for (var i = 0; i < rs.length; i++){ %>
+	<a href="/recording/?recordingID=<%= rs[i].recordingID %>">
+		<%= rs[i].recordingTitle %> - <%= rs[i].userName %>
+	</a>
+<% } %> 
+<% } else { %>
+	<em><b>No recordings found for this lecture.</b></em>
+<% } %> 
+
+<% include footer %>

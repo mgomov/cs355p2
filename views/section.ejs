@@ -1,0 +1,17 @@
+<% include sidebar %>
+<% include header %>
+
+<% if(rs.lectures.length > 0) { %>
+<em><b><%= rs.lectures[0].description %> </b>lectures:</em>
+<% } else { %>
+	<em><b>No lectures found!</em></b>
+<% } %>
+<br/>
+<% for (var i = 0 ; i < rs.lectures.length; i++){ %>
+	<a href="/lecture/?sectionID=<%= rs.lectures[i].ofSection %>&title=<%= rs.lectures[i].title %>">
+	<%= rs.lectures[i].title %>
+	</a>
+	<br/>
+<% } %>
+
+<% include footer %>

@@ -1,0 +1,17 @@
+<% include sidebar %>
+<% include header %>
+
+<em>Annotations of<b> <%= rs.recordingTitle %></b>:</em>
+<br/>
+<% if(rs.annotations.length > 0){ %>
+<% for(var i = 0; i < rs.annotations.length; i++){ %>
+	<a href="/annotation/?ofRecording=<%= rs.recordingID %>&belongsTo=<%= rs.annotations[i].belongsTo %>">
+		<%= rs.annotations[i].annotationTitle %> - <%= rs.annotations[i].userName %>
+		<br/>
+	</a>
+<% } %>
+<% } else { %>
+	<em><b>No annotations for this recording were found.</b></em>
+<% } %> 
+
+<% include footer %>

@@ -1,0 +1,18 @@
+<% include sidebar %>
+<% include header %>
+<canvas id="annotCanvas" name="annotCanvas" width="600" height="160">
+</canvas>
+<script>
+	var cv = document.getElementById("annotCanvas");
+	var ctx = cv.getContext('2d');
+	ctx.font="30px Arial";
+	ctx.fillStyle="#ffffff";
+	ctx.fillRect(0, 0, 600, 160);
+	ctx.fillStyle="#000000";
+	ctx.fillText("PLAYBACK CANVAS GOES HERE", 50, 35);
+	ctx.fillText("Annotation by: <%= rs.userName %>", 50, 70);
+	ctx.fillText("\"<%= rs.annotationTitle %>\"", 50, 105);
+	ctx.fillText("(No CDN, so not implemented)", 50, 140);
+</script>
+
+<% include footer %>

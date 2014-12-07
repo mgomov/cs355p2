@@ -1,0 +1,182 @@
+<% include sidebar %>
+<% include header %>
+
+
+<form method = "post" action="/home">
+	<label for="userID">Active user:</label>
+	<select id="userID" name="userID">
+		<% for (var i = 0; rs.length > i; i++) { %>
+		<option value="<%= rs[i].userID %>" <% if (rs.userName == rs[i].userName) { %> selected <% } %>>
+			<%= rs[i].userName %> (<%= rs[i].accountType %>)
+		</option>
+		<% } %>
+	</select>
+	<input type="submit" value="Select user"/>
+</form>
+
+<form method="POST" action="/home/update">
+	Username: <br><input type="text"name="userName" id="userName" value="<%= rs.userName %>"
+		<% if (rs.disabled == "true") { %> disabled <%}%>>
+	<br>
+	<br>
+	Account type:
+	<br><select id="accountType" name="accountType" value="<%= rs.accountType %>"
+		<% if (rs.disabled == "true") { %> disabled <%}%>>
+	
+		<option value="STU">
+			Student
+		</option>
+		<option value="INS" <% if(rs.accountType == 'INS') { %> selected <% } %>>
+			Instructor
+		</option>
+	</select>
+	<input type="hidden" name="userID" id="userID" value=<%=rs.userID %> />
+	<input type="submit" value="Update user"
+		<% if (rs.disabled == "true") { %> disabled <%}%>/>
+</form>
+
+<br/><br/>
+<% if (rs.disabled == "false") { %>
+<% if (rs.accountType == "INS") { %>
+	<em>Create a new class and section as an instructor: </em>
+	<form method="POST" action="/create/">
+		
+		<em>School:</em> <input type="text" id="school" name="school" /> <br/><br/> 
+		<em>Description: </em> <input type="text" id="description" name="description" /> <br/><br/> 
+		<input type="hidden" id="userID" name="userID" value=<%= rs.userID %> />
+		<input type="submit" value="Create"/>
+
+	</form>
+	<br/>
+	<br/>
+	<br/>
+<% } %>
+	
+	
+	<table>
+		<em> My Recordings: </em>
+		<% if (rs.recordings.length > 0) { %>
+			<tr> 
+				<th>Recording Title</th>
+			</tr>	
+			<% for (var j = 0; j < rs.recordings.length; j++) { %>
+				<tr>
+				<td>
+					<a href="/recording/?recordingID=<%= rs.recordings[j].recordingID %>">
+						<%= rs.recordings[j].recordingTitle %>
+					</a>
+					<br>
+				</td>
+				</tr>
+			<% } %>
+		<% } else {  %>
+			<br>
+			<em><b> No items available</b></em>
+		<% } %>
+	</table>
+	<br/>
+	<br/>
+	<table>
+		<em> My Annotations: </em>
+		<% if (rs.annotations.length > 0) { %>
+			<tr> 
+				<th> Annotation Title </th>
+				<th> Of Recording </th>
+				<th> Recording By </th>
+			</tr>	
+			<% for (var j = 0; j < rs.annotations.length; j++) { %>
+				<tr>
+				<td>
+					<a href ="/annotation/?ofRecording=<%= rs.annotations[j].recordingID %>&belongsTo=<%= rs.userID %>">
+						<%= rs.annotations[j].annotationTitle %>
+					</a>
+					<br>
+				</td>
+				<td>
+					<a href ="/recording/?recordingID=<%= rs.annotations[j].recordingID %>">
+						<%= rs.annotations[j].recordingTitle %>
+					</a>
+					<br>
+				</td>
+				<td>
+					<a href ="">
+						<%= rs.annotations[j].userName %>
+					</a>
+					<br>
+				</td>
+				</tr>
+			<% } %>
+		<% } else {  %>
+			<br>
+			<em><b> No items available</b></em>
+		<% } %>
+	</table>
+	<br/>
+	<br/>
+	
+	<table>
+		<em> Recordings shared with me: </em>
+		<% if (rs.rshared.length > 0) { %>
+			<tr> 
+				<th>Recording Title</th>
+				<th>Owner</th>
+			</tr>
+			<% for (var l = 0; l < rs.rshared.length; l++){ %>
+				<tr>
+					<td>
+						<a href="/recording/?recordingID=<%= rs.rshared[l].recordingID %>">
+							<%= rs.rshared[l].recordingTitle %>
+						</a>
+						<br/>
+					</td>
+					<td>
+						<a href="">
+							<%= rs.rshared[l].userName %>
+						</a>
+						<br/>
+					</td>
+				</tr>
+			<% } %>
+		<% } else { %>
+			<br>
+			<em><b> No items available</b></em>
+		<% } %>
+	</table>
+	<br/>
+	<br/>
+
+	<table>
+		<em> Annotations shared with me: </em>
+		<% if (rs.ashared.length > 0) { %>
+			<tr> 
+				<th> Annotation Titled </th>
+				<th> Owned By </th>
+			</tr>
+			<% for (var k = 0; k < rs.ashared.length; k++){ %>
+				<tr>
+				<td>
+					<a href ="/annotation/?ofRecording=<%= rs.ashared[k].ofRecording %>&belongsTo=<%= rs.ashared[k].belongsTo %>">
+						<%= rs.ashared[k].annotationTitle %>
+					</a>
+					<br>
+				</td>
+				<td>
+					<a href ="">
+						<%= rs.ashared[k].userName %>
+					</a>
+					<br>
+				</td>
+				</tr>	
+			<% } %>
+		<% } else { %>
+			<br>
+			<em><b> No items available</b></em>
+		<% } %>
+	</table>
+<% } %>
+
+
+<% if(rs.accountType == "STU") { %>
+<% } %> 
+
+<% include footer %>

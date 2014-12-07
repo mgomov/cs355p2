@@ -1,0 +1,48 @@
+<% include sidebar %>
+<% include header %>
+<em>Class:</em>
+<form method="POST" action="/browseclass">
+	<select id="sectionOf" name="sectionOf">
+		<% for (var i = 0; i < rs.classes.length; i++){ %>
+			<option value=<%= rs.classes[i].classNumber %> <% if (rs.active == rs.classes[i].classNumber){ %> selected <% } %>>
+				<%= rs.classes[i].school %> - <%= rs.classes[i].description %>
+			</option>
+		<% } %>
+	</select>
+
+	<input type="Submit" value="Load sections"/>
+</form>
+
+<em>Sections:</em><br/>
+<% if (rs.active){ %>
+	<em>Current:</em><br/>
+	<% if(rs.currentSections.length > 0 ){ %>
+		<% for(var i = 0; i < rs.currentSections.length; i++){ %>
+			<a href="/section/?sectionID=<%= rs.currentSections[i].sectionID %>">
+				<%= rs.currentSections[i].school %> - <%= rs.currentSections[i].userName %> - <%= rs.currentSections[i].description %>
+			</a>
+			<br/>
+		<% } %> 
+	<% } else { %>
+		<em><b>No current sections were found for this class </b> </em>
+	<% } %>
+	<br/>
+	<br/>
+	<em>Past:</em><br/>
+	<% if(rs.pastSections.length > 0 ){ %>
+		<% for(var i = 0; i < rs.pastSections.length; i++){ %>
+			<a href="/section/?sectionID=<%= rs.pastSections[i].sectionID %>">
+				<%= rs.pastSections[i].school %> - <%= rs.pastSections[i].userName %> - <%= rs.pastSections[i].description %>
+			</a>
+			<br/>
+			
+		<% } %> 
+	<% } else { %>
+		<em><b>No past sections were found for this class </b> </em>
+	<% } %>
+<% } else {  %>
+	<br/>
+	<em><b>Pick a class above to see current and past sections </b> </em>
+<% } %> 
+
+<% include footer %>
